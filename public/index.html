@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Aadhaar Status</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <img src="C:/Users/rital/Desktop/emblem-of-india-logo-vector-11574156417zckkkctfnc.png" alt="India Logo" class="india-logo">
+                <span class="header-title">myAdhaar</span>
+            </div>
+            <div class="header-right">
+                <img src="C:/Users/rital/Desktop/224-2240746_aadhaar-logo-aadhar-card-logo-png.png" alt="Aadhaar Logo" class="aadhaar-logo">
+                <div class="language-selector">
+                    <span class="language-text">English</span>
+                    <span class="dropdown-icon">&#x25BC;</span>
+                </div>
+            </div>
+        </header>
+        <nav>
+            <div class="breadcrumb">
+                <span>Dashboard</span> &gt; <span>Check Enrolment & Update Status</span>
+            </div>
+        </nav>
+        
+        <section class="status-check">
+            <h3>Check Aadhaar Status</h3>
+            <p>Check if your Aadhaar is generated or updated (In case you have updated at an Enrolment/Update center).</p>
+            <form id="statusForm">
+                <label>
+                    <input type="radio" name="idType" value="eid" checked> Enrolment ID
+                </label>
+                <label>
+                    <input type="radio" name="idType" value="srn"> SRN
+                </label>
+                <label>
+                    <input type="radio" name="idType" value="urn"> URN
+                </label>
+
+                <div>
+                    <label for="enrolmentId">Enter 14 digit Enrolment Number</label>
+                    <input type="text" id="enrolmentId" name="enrolmentId" maxlength="14" required>
+                </div>
+
+                <p>Mention date and time as per the acknowledgement slip (optional)</p>
+                
+                <div>
+                    <label for="enrolmentDate">Select EID date</label>
+                    <input type="date" id="enrolmentDate" name="enrolmentDate">
+                </div>
+
+                <div>
+                    <label for="enrolmentTime">Select EID time</label>
+                    <input type="time" id="enrolmentTime" name="enrolmentTime">
+                </div>
+                
+                <button type="submit">Check Status</button>
+            </form>
+
+            <!-- Section to display the GET response -->
+            <div id="statusResponse">
+                <h4>Status Response</h4>
+                <pre id="responseContent">The status will be displayed here.</pre>
+            </div>
+        </section>
+
+        <!-- JavaScript to handle behavior tracking and form submission -->
+        <script src="behavior.js"></script>
+        <script>
+            document.getElementById('statusForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the form from submitting the usual way
+
+                // Collect data from the form
+                const formData = new FormData(this);
+                const query = new URLSearchParams({
+                    idType: formData.get('idType'),
+                    enrolmentId: formData.get('enrolmentId'),
+                }).toString();
+
+                // Prepare behavior data
+                const behaviorData = {
+                    mouseMovements: window.mouseMovements,
+                    typingData: window.typingData
+                };
+
+                // Send the behavior data to the server for CAPTCHA verification
+                fetch('http://localhost:5000/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(behaviorData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.verified) {
+                        // CAPTCHA passed
+                        alert('CAPTCHA passed! You are a human.');
+
+                        // Fetch the status from the server
+                        fetch(`/api/status/check?${query}`)
+                            .then(response => response.json())
+                            .then(result => {
+                                console.log('GET Response:', result); // Log the result for debugging
+
+                                // Display the response in the HTML
+                                document.getElementById('responseContent').textContent = JSON.stringify(result, null, 2);
+                            })
+                            .catch(error => {
+                                console.error('Error:', error); // Log any errors
+                                document.getElementById('responseContent').textContent = 'Error fetching status. Please try again.';
+                            });
+                    } else {
+                        // CAPTCHA failed
+                        alert('CAPTCHA failed. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again later.');
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,158 @@
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header styling */
+header {
+    background: linear-gradient(to right, #002f6c, #1a7ab6);
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #005aaa;
+    text-align: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.india-logo {
+    height: 50px;
+    margin-right: 15px;
+}
+
+.header-title {
+    font-size: 24px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.aadhaar-logo {
+    height: 40px;
+    margin-right: 15px;
+}
+
+.language-selector {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.language-text {
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+.dropdown-icon {
+    font-size: 14px;
+}
+
+/* Navigation styling */
+nav {
+    background: #f1f1f1;
+    padding: 10px 20px;
+}
+
+.breadcrumb {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Container styling */
+.container {
+    width: 80%;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Status check section styling */
+.status-check {
+    margin-top: 20px;
+}
+
+.status-check h3 {
+    color: #005aaa;
+    border-bottom: 2px solid #005aaa;
+    padding-bottom: 10px;
+}
+
+.status-check p {
+    margin-bottom: 15px;
+}
+
+.status-check form {
+    display: flex;
+    flex-direction: column;
+}
+
+.status-check label {
+    margin-bottom: 10px;
+}
+
+.status-check input[type="text"],
+.status-check input[type="date"],
+.status-check input[type="time"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #005aaa;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #004080;
+}
+
+/* Accordion styling */
+.accordion-item {
+    margin-bottom: 10px;
+}
+
+.accordion-item button {
+    width: 100%;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    text-align: left;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.accordion-item button:hover {
+    background-color: #e2e2e2;
+}
+
+.panel {
+    display: none;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
+    border-radius: 0 0 4px 4px;
+    overflow: hidden;
+}
+
+.panel.open {
+    display: block;
+}
